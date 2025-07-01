@@ -1,0 +1,1377 @@
+/* src/components/battle/TeamSelector.css */
+
+.team-selector {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
+  color: #fff;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  z-index: 10005; /* Higher than side panel (9999) and connect button */
+  isolation: isolate; /* Create new stacking context */
+}
+
+/* Header */
+.team-selector-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 30px;
+  background: rgba(0, 0, 0, 0.5);
+  border-bottom: 2px solid rgba(76, 175, 80, 0.3);
+  backdrop-filter: blur(10px);
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+.back-button {
+  background: rgba(76, 175, 80, 0.2);
+  border: 1px solid rgba(76, 175, 80, 0.4);
+  color: #4CAF50;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.back-button:hover {
+  background: rgba(76, 175, 80, 0.3);
+  transform: translateX(-3px);
+}
+
+.team-selector-header h2 {
+  margin: 0;
+  color: #4CAF50;
+  font-size: 28px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(45deg, #4CAF50, #66BB6A);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.difficulty-badge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.difficulty-badge[data-difficulty="tutorial"] {
+  background: rgba(0, 188, 212, 0.2);
+  color: #00BCD4;
+  border: 1px solid #00BCD4;
+}
+
+.difficulty-badge[data-difficulty="easy"] {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4CAF50;
+  border: 1px solid #4CAF50;
+}
+
+.difficulty-badge[data-difficulty="medium"] {
+  background: rgba(255, 193, 7, 0.2);
+  color: #FFC107;
+  border: 1px solid #FFC107;
+}
+
+.difficulty-badge[data-difficulty="hard"] {
+  background: rgba(255, 152, 0, 0.2);
+  color: #FF9800;
+  border: 1px solid #FF9800;
+}
+
+.difficulty-badge[data-difficulty="expert"] {
+  background: rgba(244, 67, 54, 0.2);
+  color: #F44336;
+  border: 1px solid #F44336;
+  animation: expert-pulse 2s ease-in-out infinite;
+}
+
+@keyframes expert-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Tutorial Loading Screen */
+.team-selector.tutorial-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0a0f1b 0%, #1a2332 50%, #0d1929 100%);
+}
+
+.tutorial-start-container {
+  text-align: center;
+  max-width: 600px;
+  padding: 40px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  border: 2px solid rgba(0, 188, 212, 0.3);
+  box-shadow: 0 0 50px rgba(0, 188, 212, 0.1);
+  backdrop-filter: blur(10px);
+  animation: fadeInScale 0.5s ease-out;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.tutorial-logo {
+  margin-bottom: 30px;
+}
+
+.tutorial-icon {
+  font-size: 80px;
+  display: inline-block;
+  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px rgba(0, 188, 212, 0.5));
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.tutorial-start-container h2 {
+  color: #00BCD4;
+  font-size: 32px;
+  margin-bottom: 15px;
+  text-shadow: 0 2px 10px rgba(0, 188, 212, 0.3);
+  background: linear-gradient(45deg, #00BCD4, #26C6DA);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.tutorial-start-container > p {
+  color: #B0BEC5;
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+.loading-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 30px 0;
+}
+
+.loading-dots span {
+  width: 12px;
+  height: 12px;
+  background: #00BCD4;
+  border-radius: 50%;
+  animation: bounce-loading 1.4s ease-in-out infinite;
+  box-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
+}
+
+.loading-dots span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.loading-dots span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes bounce-loading {
+  0%, 80%, 100% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1.0);
+    opacity: 1;
+  }
+}
+
+.tutorial-tips {
+  background: rgba(0, 188, 212, 0.1);
+  border-radius: 15px;
+  padding: 25px;
+  margin-top: 40px;
+  border: 1px solid rgba(0, 188, 212, 0.3);
+  text-align: left;
+}
+
+.tutorial-tips h3 {
+  color: #00BCD4;
+  font-size: 20px;
+  margin-bottom: 15px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.tutorial-tips ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tutorial-tips li {
+  padding: 10px 0;
+  font-size: 16px;
+  color: #E0E0E0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+
+.tutorial-tips li:hover {
+  transform: translateX(5px);
+  color: #fff;
+}
+
+/* Main Content */
+.team-selector-content {
+  flex: 1;
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  overflow: hidden;
+  min-height: 0; /* Enable proper flexbox behavior */
+}
+
+/* Available Panel */
+.available-panel {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 15px;
+  padding: 20px;
+  overflow-y: auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.available-panel h3 {
+  margin: 0 0 20px 0;
+  color: #4CAF50;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.creature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 15px;
+  overflow-y: auto;
+  padding-right: 5px; /* Space for scrollbar */
+}
+
+/* Creature Cards */
+.creature-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.creature-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.creature-card.selected {
+  border-color: #4CAF50;
+  background: rgba(76, 175, 80, 0.1);
+}
+
+.creature-card.common {
+  background: linear-gradient(135deg, rgba(158, 158, 158, 0.1), rgba(117, 117, 117, 0.1));
+}
+
+.creature-card.rare {
+  background: linear-gradient(135deg, rgba(66, 165, 245, 0.1), rgba(33, 150, 243, 0.1));
+}
+
+.creature-card.epic {
+  background: linear-gradient(135deg, rgba(156, 39, 176, 0.1), rgba(124, 77, 255, 0.1));
+}
+
+.creature-card.legendary {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(255, 152, 0, 0.1));
+  box-shadow: 0 0 20px rgba(255, 193, 7, 0.2);
+}
+
+.creature-image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.creature-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.form-badge {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #4CAF50;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid rgba(76, 175, 80, 0.5);
+}
+
+.combo-badge {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background: rgba(255, 152, 0, 0.9);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.creature-info {
+  text-align: center;
+}
+
+.creature-name {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.creature-rarity {
+  font-size: 12px;
+  color: #aaa;
+  margin-bottom: 4px;
+}
+
+.creature-rating {
+  font-size: 14px;
+  color: #4CAF50;
+  font-weight: 600;
+}
+
+.creature-specialties {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.specialty-icon {
+  font-size: 16px;
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.5));
+}
+
+.selected-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(76, 175, 80, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.selected-check {
+  background: #4CAF50;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  box-shadow: 0 2px 10px rgba(76, 175, 80, 0.5);
+}
+
+/* Team Panel */
+.team-panel {
+  flex: 1.2;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 15px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  box-shadow: 0 0 30px rgba(76, 175, 80, 0.1);
+  overflow-y: auto;
+  min-height: 0; /* Enable proper flexbox behavior */
+}
+
+.team-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.team-header h3 {
+  margin: 0;
+  color: #4CAF50;
+  font-size: 20px;
+}
+
+.synergy-toggle {
+  background: rgba(76, 175, 80, 0.2);
+  border: 1px solid rgba(76, 175, 80, 0.4);
+  color: #4CAF50;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.synergy-toggle:hover:not(:disabled) {
+  background: rgba(76, 175, 80, 0.3);
+  transform: scale(1.05);
+}
+
+.synergy-toggle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Team Analysis */
+.team-analysis {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  padding: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+.team-rating {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.rating-label {
+  color: #aaa;
+}
+
+.rating-value {
+  color: #4CAF50;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.difficulty-match {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.difficulty-match.good {
+  border: 1px solid rgba(76, 175, 80, 0.4);
+}
+
+.difficulty-match.warning {
+  border: 1px solid rgba(255, 152, 0, 0.4);
+}
+
+.match-ratings {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.vs {
+  color: #666;
+  font-weight: bold;
+}
+
+.match-recommendation {
+  font-size: 13px;
+  color: #ccc;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* Synergy Details */
+.synergy-details {
+  background: rgba(76, 175, 80, 0.1);
+  border-radius: 10px;
+  padding: 15px;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  flex-shrink: 0;
+}
+
+.synergy-details h4 {
+  margin: 0 0 12px 0;
+  color: #4CAF50;
+  font-size: 16px;
+}
+
+.synergy-list {
+  max-height: 150px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.synergy-item {
+  display: flex;
+  gap: 10px;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.synergy-item:last-child {
+  margin-bottom: 0;
+}
+
+.synergy-icon {
+  font-size: 24px;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
+}
+
+.synergy-info {
+  flex: 1;
+}
+
+.synergy-name {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.synergy-description {
+  font-size: 13px;
+  color: #aaa;
+  margin-bottom: 2px;
+}
+
+.synergy-bonus {
+  font-size: 13px;
+  color: #4CAF50;
+  font-weight: 600;
+}
+
+/* Selected Creatures List */
+.selected-creatures-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  padding: 15px;
+  min-height: 250px; /* Ensure minimum height for battle order */
+}
+
+.list-header {
+  margin-bottom: 15px;
+  flex-shrink: 0;
+}
+
+.list-header h4 {
+  margin: 0 0 4px 0;
+  color: #4CAF50;
+  font-size: 16px;
+}
+
+.order-hint {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.empty-team {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 14px;
+  text-align: center;
+  padding: 40px;
+}
+
+.creature-order-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 5px; /* Space for scrollbar */
+  max-height: 300px; /* Limit height on desktop */
+}
+
+.creature-order-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 8px;
+  cursor: move;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  flex-shrink: 0; /* Prevent items from shrinking */
+}
+
+.creature-order-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(76, 175, 80, 0.3);
+}
+
+.creature-order-item[draggable="true"]:active {
+  opacity: 0.5;
+}
+
+.order-number {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4CAF50;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.creature-order-item img {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+}
+
+.order-creature-info {
+  flex: 1;
+  min-width: 0; /* Enable text truncation */
+}
+
+.order-creature-name {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.order-creature-stats {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.drag-handle {
+  color: #666;
+  cursor: grab;
+  user-select: none;
+  padding: 0 5px;
+  flex-shrink: 0;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+/* Items Selection */
+.items-selection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  flex-shrink: 0;
+}
+
+.tools-section,
+.spells-section {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  max-height: 250px;
+}
+
+.tools-section h4,
+.spells-section h4 {
+  margin: 0 0 8px 0;
+  color: #4CAF50;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+/* New items list layout */
+.items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.item-card {
+  display: flex;
+  gap: 8px;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  align-items: center;
+  min-height: 44px;
+}
+
+.item-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(3px);
+  border-color: rgba(76, 175, 80, 0.3);
+}
+
+.item-card.selected {
+  border-color: #4CAF50;
+  background: rgba(76, 175, 80, 0.1);
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+}
+
+.item-image {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.item-check {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(76, 175, 80, 0.9);
+  color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.item-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.item-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+  flex: 1;
+}
+
+.item-cost {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  color: #FFC107;
+  font-weight: 600;
+  background: rgba(255, 193, 7, 0.15);
+  padding: 2px 6px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+/* Rarity-based item card styling */
+.item-card[data-rarity="common"] .item-image {
+  border-color: #757575;
+}
+
+.item-card[data-rarity="rare"] .item-image {
+  border-color: #2196F3;
+  box-shadow: 0 0 8px rgba(33, 150, 243, 0.3);
+}
+
+.item-card[data-rarity="epic"] .item-image {
+  border-color: #9C27B0;
+  box-shadow: 0 0 8px rgba(156, 39, 176, 0.3);
+}
+
+.item-card[data-rarity="legendary"] .item-image {
+  border-color: #FFC107;
+  box-shadow: 0 0 8px rgba(255, 193, 7, 0.3);
+}
+
+/* Start Battle Button */
+.start-battle-button {
+  background: linear-gradient(135deg, #4CAF50, #66BB6A);
+  border: none;
+  color: #fff;
+  padding: 15px 30px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.start-battle-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
+}
+
+.start-battle-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.start-battle-button.disabled {
+  background: linear-gradient(135deg, #666, #555);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.start-battle-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
+}
+
+.start-battle-button:hover:not(:disabled)::before {
+  left: 100%;
+}
+
+/* No Creatures Container */
+.no-creatures-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  min-height: 400px;
+}
+
+.no-creatures-message {
+  background: rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(76, 175, 80, 0.3);
+  border-radius: 20px;
+  padding: 40px;
+  max-width: 600px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.no-creatures-message h3 {
+  color: #FF9800;
+  font-size: 28px;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.no-creatures-message p {
+  color: #e6e6e6;
+  font-size: 16px;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.no-creatures-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.mint-creature-button {
+  background: linear-gradient(135deg, #4CAF50, #66BB6A);
+  border: none;
+  color: white;
+  padding: 15px 30px;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.mint-creature-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5);
+  background: linear-gradient(135deg, #66BB6A, #4CAF50);
+}
+
+.mint-creature-button span {
+  font-size: 24px;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.back-button-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 15px 30px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.back-button-secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.creature-info-tips {
+  margin-top: 40px;
+  text-align: left;
+  background: rgba(76, 175, 80, 0.1);
+  border-radius: 15px;
+  padding: 20px;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.creature-info-tips h4 {
+  color: #4CAF50;
+  font-size: 18px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.creature-info-tips ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.creature-info-tips li {
+  padding: 8px 0;
+  padding-left: 25px;
+  position: relative;
+  color: #e6e6e6;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.creature-info-tips li:before {
+  content: '🔹';
+  position: absolute;
+  left: 0;
+  color: #4CAF50;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .team-selector-content {
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 15px;
+  }
+  
+  .available-panel,
+  .team-panel {
+    flex: none;
+    max-height: none;
+    width: 100%;
+  }
+  
+  .available-panel {
+    max-height: 400px;
+  }
+  
+  .creature-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+  
+  .creature-order-list {
+    max-height: 200px;
+  }
+  
+  .items-selection {
+    grid-template-columns: 1fr;
+  }
+  
+  .items-list {
+    max-height: 180px;
+  }
+  
+  /* Tutorial adjustments for tablet */
+  .tutorial-start-container {
+    padding: 30px;
+  }
+  
+  .tutorial-icon {
+    font-size: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .team-selector-header {
+    padding: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .team-selector-header h2 {
+    font-size: 20px;
+    flex: 1;
+  }
+  
+  .creature-grid {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 10px;
+  }
+  
+  .team-selector-content {
+    padding: 10px;
+    gap: 10px;
+  }
+  
+  .items-list {
+    max-height: 140px;
+    gap: 3px;
+  }
+  
+  .item-card {
+    padding: 5px 6px;
+    gap: 6px;
+    min-height: 40px;
+  }
+  
+  .item-image {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .item-name {
+    font-size: 12px;
+  }
+  
+  .item-cost {
+    font-size: 10px;
+    padding: 1px 4px;
+  }
+  
+  /* Tutorial adjustments for mobile */
+  .tutorial-start-container {
+    padding: 20px;
+  }
+  
+  .tutorial-start-container h2 {
+    font-size: 24px;
+  }
+  
+  .tutorial-start-container > p {
+    font-size: 16px;
+  }
+  
+  .tutorial-tips li {
+    font-size: 14px;
+  }
+}
+
+/* Mobile styles (480px and below) */
+@media (max-width: 480px) {
+  .team-selector {
+    overflow: hidden; /* Prevent double scrollbars */
+  }
+  
+  .team-selector-content {
+    flex-direction: column;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    padding: 10px;
+    gap: 15px;
+    /* Enable scrolling with proper height calculation */
+    height: calc(100vh - 80px); /* Account for header height */
+  }
+  
+  .team-selector-header {
+    padding: 10px;
+    min-height: 60px; /* Fixed header height for calculation */
+  }
+  
+  .available-panel,
+  .team-panel {
+    flex: none;
+    overflow: visible; /* Allow content to determine height */
+    max-height: none;
+    height: auto;
+  }
+  
+  .available-panel {
+    min-height: 300px;
+  }
+  
+  .team-panel {
+    padding-bottom: 20px; /* Extra space at bottom */
+    min-height: 500px; /* Ensure enough height for all content */
+  }
+  
+  .selected-creatures-list {
+    min-height: 200px; /* Ensure minimum space for creature order */
+  }
+  
+  .creature-order-list {
+    max-height: none; /* Remove height limit on mobile */
+    overflow: visible;
+  }
+  
+  .synergy-list {
+    max-height: 120px; /* Limit synergy list height on mobile */
+  }
+  
+  .items-selection {
+    grid-template-columns: 1fr; /* Stack vertically on mobile */
+    gap: 10px;
+  }
+  
+  .start-battle-button {
+    margin-top: 10px;
+    padding: 12px 20px;
+    font-size: 16px;
+  }
+  
+  .creature-grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns on mobile */
+    gap: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 5px;
+  }
+  
+  .item-select {
+    width: 35px;
+    height: 35px;
+  }
+  
+  /* Adjust font sizes for mobile */
+  .team-selector-header h2 {
+    font-size: 18px;
+  }
+  
+  .difficulty-badge {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+  
+  .creature-name {
+    font-size: 12px;
+  }
+  
+  .creature-rating {
+    font-size: 12px;
+  }
+  
+  /* No creatures mobile adjustments */
+  .no-creatures-container {
+    padding: 20px;
+  }
+  
+  .no-creatures-message {
+    padding: 25px;
+  }
+  
+  .no-creatures-message h3 {
+    font-size: 22px;
+  }
+  
+  .no-creatures-message p {
+    font-size: 14px;
+  }
+  
+  .mint-creature-button {
+    padding: 12px 24px;
+    font-size: 16px;
+  }
+  
+  .no-creatures-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .mint-creature-button,
+  .back-button-secondary {
+    width: 100%;
+  }
+  
+  /* Tutorial mobile adjustments */
+  .tutorial-start-container {
+    padding: 20px;
+    max-width: 100%;
+  }
+  
+  .tutorial-icon {
+    font-size: 50px;
+  }
+  
+  .tutorial-start-container h2 {
+    font-size: 22px;
+  }
+  
+  .tutorial-tips h3 {
+    font-size: 16px;
+  }
+  
+  .tutorial-tips li {
+    font-size: 13px;
+    padding: 8px 0;
+  }
+  
+  .loading-dots span {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+/* Additional fix for iOS Safari */
+@supports (-webkit-touch-callout: none) {
+  .team-selector-content {
+    /* Use momentum scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Prevent iOS bounce effect at boundaries */
+  .team-selector {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+/* Custom scrollbar styling */
+.team-selector-content::-webkit-scrollbar,
+.creature-grid::-webkit-scrollbar,
+.creature-order-list::-webkit-scrollbar,
+.synergy-list::-webkit-scrollbar,
+.items-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.team-selector-content::-webkit-scrollbar-track,
+.creature-grid::-webkit-scrollbar-track,
+.creature-order-list::-webkit-scrollbar-track,
+.synergy-list::-webkit-scrollbar-track,
+.items-list::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
+
+.team-selector-content::-webkit-scrollbar-thumb,
+.creature-grid::-webkit-scrollbar-thumb,
+.creature-order-list::-webkit-scrollbar-thumb,
+.synergy-list::-webkit-scrollbar-thumb,
+.items-list::-webkit-scrollbar-thumb {
+  background: rgba(76, 175, 80, 0.5);
+  border-radius: 3px;
+}
+
+.team-selector-content::-webkit-scrollbar-thumb:hover,
+.creature-grid::-webkit-scrollbar-thumb:hover,
+.creature-order-list::-webkit-scrollbar-thumb:hover,
+.synergy-list::-webkit-scrollbar-thumb:hover,
+.items-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(76, 175, 80, 0.7);
+}
