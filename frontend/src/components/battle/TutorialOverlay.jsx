@@ -29,8 +29,15 @@ const TutorialOverlay = ({ message, progress, onDismiss, onSkipTutorial }) => {
 
   return (
     <div className={`tutorial-overlay ${isAnimating ? 'animating' : ''}`}>
+      {/* Render highlight FIRST so it appears behind everything else */}
+      {message.highlight && (
+        <div className={`tutorial-highlight ${message.highlight}`} />
+      )}
+      
+      {/* Backdrop comes after highlight but before message */}
       <div className="tutorial-backdrop" onClick={handleDismiss} />
       
+      {/* Message comes last so it appears on top */}
       <div className={`tutorial-message ${message.arrow || ''}`}>
         <div className="tutorial-header">
           <div className="tutorial-icon">💡</div>
@@ -70,10 +77,6 @@ const TutorialOverlay = ({ message, progress, onDismiss, onSkipTutorial }) => {
           />
         </div>
       </div>
-      
-      {message.highlight && (
-        <div className={`tutorial-highlight ${message.highlight}`} />
-      )}
     </div>
   );
 };
