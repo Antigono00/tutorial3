@@ -31,8 +31,9 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.85) 100%);
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.95) 100%);
   pointer-events: all;
+  z-index: 1; /* Ensure backdrop is below message */
 }
 
 .tutorial-message {
@@ -53,6 +54,7 @@
   pointer-events: all;
   position: relative;
   overflow: hidden;
+  z-index: 3; /* Ensure message is above highlight */
 }
 
 /* Position adjustments based on highlight areas */
@@ -217,34 +219,48 @@
   box-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
 }
 
-/* Highlight areas - FIXED POSITIONING */
+/* Highlight areas - FIXED POSITIONING WITH REDUCED INTENSITY */
 .tutorial-highlight {
   position: fixed;
-  border: 3px solid #00BCD4;
+  border: 2px solid rgba(0, 188, 212, 0.6); /* Reduced opacity */
   border-radius: 10px;
   box-shadow: 
-    0 0 0 3px rgba(0, 188, 212, 0.2),
-    0 0 30px rgba(0, 188, 212, 0.6),
-    inset 0 0 30px rgba(0, 188, 212, 0.2);
+    0 0 0 2px rgba(0, 188, 212, 0.15),
+    0 0 20px rgba(0, 188, 212, 0.3),
+    inset 0 0 20px rgba(0, 188, 212, 0.1);
   pointer-events: none;
   animation: highlightPulse 2s ease-in-out infinite;
-  z-index: 19999;
+  z-index: 2; /* Below message but above backdrop */
+  background: rgba(0, 188, 212, 0.05); /* Subtle background fill */
+}
+
+/* Add dark overlay around highlights for better contrast */
+.tutorial-highlight::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 15px;
+  z-index: -1;
 }
 
 @keyframes highlightPulse {
   0%, 100% { 
+    opacity: 0.6;
+    box-shadow: 
+      0 0 0 2px rgba(0, 188, 212, 0.15),
+      0 0 20px rgba(0, 188, 212, 0.3),
+      inset 0 0 20px rgba(0, 188, 212, 0.1);
+  }
+  50% { 
     opacity: 0.8;
     box-shadow: 
       0 0 0 3px rgba(0, 188, 212, 0.2),
-      0 0 30px rgba(0, 188, 212, 0.6),
-      inset 0 0 30px rgba(0, 188, 212, 0.2);
-  }
-  50% { 
-    opacity: 1;
-    box-shadow: 
-      0 0 0 5px rgba(0, 188, 212, 0.3),
-      0 0 50px rgba(0, 188, 212, 0.8),
-      inset 0 0 40px rgba(0, 188, 212, 0.3);
+      0 0 30px rgba(0, 188, 212, 0.4),
+      inset 0 0 25px rgba(0, 188, 212, 0.15);
   }
 }
 
@@ -331,7 +347,7 @@
   border-color: transparent transparent transparent #283593;
 }
 
-/* Mobile adjustments */
+/* Mobile adjustments with better spacing */
 @media (max-width: 768px) {
   .tutorial-message {
     max-width: 95%;
@@ -357,7 +373,7 @@
     width: 100%;
   }
   
-  /* Adjusted mobile positioning */
+  /* Adjusted mobile positioning to prevent overlap */
   .tutorial-highlight.action-panel {
     bottom: 100px;
     left: 10px;
@@ -381,21 +397,45 @@
     height: 80px;
   }
   
-  /* Adjust message positioning on mobile */
+  /* Adjust message positioning on mobile with more spacing */
   .tutorial-message.bottom {
-    top: 60%;
+    top: 55%; /* Moved up to avoid overlap with bottom highlight */
   }
   
   .tutorial-message.top {
-    top: 40%;
+    top: 45%; /* Moved down to avoid overlap with top highlight */
   }
   
   .tutorial-message.right {
     left: 50%;
+    right: auto;
+    transform: translate(-50%, -50%);
   }
   
   .tutorial-message.left {
     left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  /* Reduce highlight intensity on mobile */
+  .tutorial-highlight {
+    opacity: 0.5;
+    border-width: 1px;
+  }
+  
+  @keyframes highlightPulse {
+    0%, 100% { 
+      opacity: 0.4;
+      box-shadow: 
+        0 0 0 1px rgba(0, 188, 212, 0.1),
+        0 0 15px rgba(0, 188, 212, 0.2);
+    }
+    50% { 
+      opacity: 0.6;
+      box-shadow: 
+        0 0 0 2px rgba(0, 188, 212, 0.15),
+        0 0 20px rgba(0, 188, 212, 0.3);
+    }
   }
 }
 
